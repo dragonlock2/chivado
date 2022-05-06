@@ -2,4 +2,4 @@ all:
 	echo "WIP!"
 
 setup:
-	docker build --rm -t vivado .
+	docker build --squash -t vivado .
