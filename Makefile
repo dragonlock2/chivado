@@ -33,8 +33,9 @@ synth: build
 flash:
 	openfpgaloader -c $(CABLE) $(BIT_FILE)
 
+# TODO fix this by spioverjtag bitfile (then do MCS)
 flash_qspi:
-	openfpgaloader -c $(CABLE) -f $(BIT_FILE)
+	openfpgaloader --fpga-part $(PART_NUM) -c $(CABLE) -f $(BIT_FILE)
 
 setup:
 	docker build --squash -t $(IMAGE_NAME) .

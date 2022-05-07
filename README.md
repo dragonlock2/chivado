@@ -31,7 +31,9 @@ Running `make synth` compiles the Chisel down to Verilog, copies the top level, 
 
 Since Docker on MacOS doesn't support USB device passthrough yet, we'll use [openFPGALoader](https://github.com/trabucayre/openFPGALoader). First change `CABLE` in `Makefile` to match your programming cable.
 
-For SRAM flashing, run `make flash`. For QSPI flash programming, run `make flash_qspi`.
+For SRAM flashing, run `make flash`.
+
+For QSPI flash programming, run `make flash_qspi`. WIP
 
 ## Extra
 

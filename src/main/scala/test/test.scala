@@ -11,9 +11,14 @@ class test extends Module {
     val rx  = Input(UInt(3.W))
   })
 
+  private val FREQ = 24e6
+
   io.tx := Reverse(io.rx)
 
-  val led_reg = RegInit(0.U(8.W))
-  led_reg := io.btn
-  io.led := led_reg
+  val (ctrVal, ctrWrap) = Counter(true.B, (0.25 * FREQ).toInt)
+  val shift = RegInit(1.U(8.W))
+  when (ctrWrap) {
+    shift := Cat(shift(0), shift(7,1))
+  }
+  io.led := shift | io.btn
 }

@@ -14,12 +14,11 @@ class tester extends AnyFreeSpec with ChiselScalatestTester {
     }
   }
 
-  "LEDs should match btn after a cycle" in {
+  "LEDs should match btn" in {
     test(new test) { dut =>
       for (i <- 0 until 256) {
         dut.io.btn.poke(i.U)
-        dut.clock.step()
-        dut.io.led.expect(i.U)
+        assert(dut.io.led.peek().litValue == (i | 1))
       }
     }
   }
