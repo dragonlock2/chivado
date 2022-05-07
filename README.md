@@ -16,24 +16,23 @@ First we need to build the Docker image with Vivado.
 Next we need to install local dependencies.
 
 1. Run `brew install sbt openfpgaloader`.
+1. If you need QSPI flash programming, change `LOADER_FOLDER` in `Makefile` and [qspi.xdc](src/main/script/qspi.xdc) to match your setup and run `make synth_qspi`.
 
 ## Run
 
-First change `PART_NUM`, `NUM_CPU`, and `TOP_MODULE` in `Makefile` as well as `src/main/script/top.xdc` to match your setup. See `src/main/scala` for how to add your own Chisel and configure the top level.
+Change `PART_NUM`, `NUM_CPU`, and `TOP_MODULE` in `Makefile` as well as [top.xdc](src/main/script/top.xdc) to match your setup. See [src/main/scala](src/main/scala) for how to add your own Chisel and configure the top level.
 
 ### Build
 
-Since Chisel IO names are not always consistent, you may need to modify `TOP_MODULE` and `src/main/script/top.xdc` again. Run `make build` to generate the top level Verilog in `build/` and check.
+Since Chisel IO names are not always consistent, you may need to modify `TOP_MODULE` and [top.xdc](src/main/script/top.xdc) again. Run `make build` to generate the top level Verilog in `build/` and check.
 
 Running `make synth` compiles the Chisel down to Verilog, copies the top level, XDC, and Tcl scripts over to the Docker container, and runs synthesis and implementation there. The final Vivado project, including the bitstream and timing reports, is copied back to the local `build/` folder.
 
 ### Flashing
 
-Since Docker on MacOS doesn't support USB device passthrough yet, we'll use [openFPGALoader](https://github.com/trabucayre/openFPGALoader). First change `CABLE` in `Makefile` to match your programming cable.
+Since Docker on MacOS doesn't support USB device passthrough yet, we'll use [openFPGALoader](https://github.com/trabucayre/openFPGALoader). Change `CABLE` in `Makefile` to match your programming cable.
 
-For SRAM flashing, run `make flash`.
-
-For QSPI flash programming, run `make flash_qspi`. WIP
+For SRAM flashing, run `make flash`. For QSPI flash programming, run `make flash_qspi`.
 
 ## Extra
 

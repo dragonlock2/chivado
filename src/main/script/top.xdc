@@ -1,7 +1,6 @@
-set_property BITSTREAM.CONFIG.SPI_BUSWIDTH 4 [current_design]
-
 set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
+set_property BITSTREAM.CONFIG.SPI_BUSWIDTH 4 [current_design]
 
 create_clock -period 41.667 [get_ports clock]
 set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN R13} [get_ports clock]
