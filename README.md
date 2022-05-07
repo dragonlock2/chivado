@@ -19,9 +19,11 @@ Next we need to install SBT.
 
 ## Run
 
-First change `PART_NUM` and `NUM_CPU` in `Makefile` as well as `src/main/script/top.xdc` to match your setup.
+First change `PART_NUM`, `NUM_CPU`, and `TOP_MODULE` in `Makefile` as well as `src/main/script/top.xdc` to match your setup. See `src/main/scala` for how to add your own Chisel and configure the top level.
 
 ### Build
+
+Since Chisel IO names are not always consistent, you may need to modify `TOP_MODULE` and `src/main/script/top.xdc` again. Run `make build` to generate the top level Verilog in `build/` and check.
 
 Running `make synth` compiles the Chisel down to Verilog, copies the top level, XDC, and Tcl scripts over to the Docker container, and runs synthesis and implementation there. The final Vivado project, including the bitstream and timing reports, is copied back to the local `build/` folder.
 

@@ -1,25 +1,25 @@
 PART_NUM := xc7s15csga225-1
 NUM_CPU := 6
+TOP_MODULE := test
 QSPI_PART_NUM := mx25l3233f-spi-x1_x2_x4
 
-DOCKER_NAME := vivado
+IMAGE_NAME := vivado
 CONTAINER_NAME := vivado-run
 CONTAINER_ROOT := /root
-PROJ_NAME := test
-TOP_MODULE := top
-TOP_FILE := top.v
+PROJ_NAME := $(TOP_MODULE)
+TOP_FILE := $(TOP_MODULE).v
 XDC_FILE := top.xdc
 SCRIPTS := src/main/script
 BUILD_DIR := build/
 RUN_CMD := docker exec -it $(CONTAINER_NAME) bash -i -c
 
-.PHONY: build synth flash_sram flash_qspi setup
+.PHONY: build synth flash_sram flash_qspi setup clean
 
 build:
-	echo "WIP!"
+	sbt 'runMain Top -td $(BUILD_DIR) --target:fpga'
 
 synth: build
-	docker run --rm -dit --net=host --name $(CONTAINER_NAME) $(DOCKER_NAME)
+	docker run --rm -dit --net=host --name $(CONTAINER_NAME) $(IMAGE_NAME)
 	docker cp $(BUILD_DIR)/$(TOP_FILE) $(CONTAINER_NAME):$(CONTAINER_ROOT)
 	docker cp $(SCRIPTS)/$(XDC_FILE) $(CONTAINER_NAME):$(CONTAINER_ROOT)
 	docker cp $(SCRIPTS)/make-project.tcl $(CONTAINER_NAME):$(CONTAINER_ROOT)
@@ -36,9 +36,11 @@ flash_qspi:
 	echo "WIP!"
 
 setup:
-	docker build --squash -t $(DOCKER_NAME) .
+	docker build --squash -t $(IMAGE_NAME) .
 
-# TODO generate verilog
+clean:
+	rm -rf $(BUILD_DIR)
+
 # TODO test flashing bitstream to ram (openocd or usb pass somehow)
 # TODO test flashing bitstream to flash (need mcs)
 # TODO adding IP (black box verilog?)
