@@ -13,9 +13,9 @@ First we need to build the Docker image with Vivado.
 1. Optionally run `docker system prune` to reclaim all that space.
 1. Optionally delete the Xilinx Unified Installer file to save space.
 
-Next we need to install SBT.
+Next we need to install local dependencies.
 
-1. Run `brew install sbt`.
+1. Run `brew install sbt openfpgaloader`.
 
 ## Run
 
@@ -29,4 +29,10 @@ Running `make synth` compiles the Chisel down to Verilog, copies the top level, 
 
 ### Flashing
 
-Flashing to SRAM can be done with `make flash_sram`. For QSPI flash, first set `QSPI_PART_NUM` in `Makefile` and then run `make flash_qspi`.
+Since Docker on MacOS doesn't support USB device passthrough yet, we'll use [openFPGALoader](https://github.com/trabucayre/openFPGALoader). First change `CABLE` in `Makefile` to match your programming cable.
+
+For SRAM flashing, run `make flash`. For QSPI flash programming, run `make flash_qspi`.
+
+## Extra
+
+### Adding IP (WIP)
