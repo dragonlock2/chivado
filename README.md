@@ -13,10 +13,18 @@ First we need to build the Docker image with Vivado.
 1. Optionally run `docker system prune` to reclaim all that space.
 1. Optionally delete the Xilinx Unified Installer file to save space.
 
-## Deploy
+Next we need to install SBT.
+
+1. Run `brew install sbt`.
+
+## Run
 
 First change `PART_NUM` and `NUM_CPU` in `Makefile` as well as `src/main/script/top.xdc` to match your setup.
 
+### Build
+
 Running `make synth` compiles the Chisel down to Verilog, copies the top level, XDC, and Tcl scripts over to the Docker container, and runs synthesis and implementation there. The final Vivado project, including the bitstream and timing reports, is copied back to the local `build/` folder.
 
-Flashing is a separate command.
+### Flashing
+
+Flashing to SRAM can be done with `make flash_sram`. For QSPI flash, first set `QSPI_PART_NUM` in `Makefile` and then run `make flash_qspi`.
