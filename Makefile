@@ -40,7 +40,7 @@ synth_qspi:
 	docker cp $(SCRIPTS)/qspi-project.tcl $(CONTAINER_NAME):$(CONTAINER_ROOT)
 	$(RUN_CMD) 'vivado -mode batch -source qspi-project.tcl -tclargs $(PART_NUM) $(NUM_CPU)'
 	docker cp $(CONTAINER_NAME):$(CONTAINER_ROOT)/qspi $(BUILD_DIR)/qspi
-	gzip -c $(BUILD_DIR)/qspi/qspi.runs/impl_1/qspi.bit > $(LOADER_FOLDER)/spiOverJtag_$(PART_NUM).bit.gz
+	cp $(BUILD_DIR)/qspi/qspi.runs/impl_1/qspi.bit $(LOADER_FOLDER)/spiOverJtag_$(PART_NUM).bit
 	docker container kill $(CONTAINER_NAME)
 
 flash:
