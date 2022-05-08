@@ -34,9 +34,11 @@ synth: build
 synth_qspi:
 	mkdir -p $(BUILD_DIR)
 	docker run --rm -dit --net=host --name $(CONTAINER_NAME) $(IMAGE_NAME)
-	docker cp $(SCRIPTS)/qspi.v $(CONTAINER_ROOT)
+	$(RUN_CMD) 'mkdir verilog'
+	docker cp $(SCRIPTS)/qspi.v $(CONTAINER_ROOT)/verilog/qspi.v
 	docker cp $(SCRIPTS)/qspi.xdc $(CONTAINER_ROOT)
 	docker cp $(SCRIPTS)/build-project.tcl $(CONTAINER_ROOT)
+	$(RUN_CMD) 'touch ip.tcl'
 	$(RUN_CMD) 'vivado -mode batch -source build-project.tcl -tclargs $(PART_NUM) qspi qspi qspi.v qspi.xdc $(NUM_CPU)'
 	docker cp $(CONTAINER_ROOT)/qspi $(BUILD_DIR)/qspi
 	cp $(BUILD_DIR)/qspi/qspi.runs/impl_1/qspi.bit $(LOADER_FOLDER)/spiOverJtag_$(PART_NUM).bit
