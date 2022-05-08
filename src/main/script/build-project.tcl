@@ -13,8 +13,12 @@ set num_cpu   [lindex $argv 5]
 create_project $proj_name $proj_name -part $part_num
 update_ip_catalog
 
+source ip.tcl
+
 add_files -fileset constrs_1 -norecurse $xdc_file
-add_files -norecurse $top_file
+foreach source [glob -directory "verilog" -- "*.v"] {
+    add_files -norecurse $source
+}
 
 import_files -force -norecurse
 import_files -fileset constrs_1 -force -norecurse $xdc_file

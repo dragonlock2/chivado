@@ -2,7 +2,7 @@
 *.tar.gz
 
 ### Project Specific stuff (imported from freechipsproject/chisel-template)
-test_run_dir/*
+test_run_dir/
 ### XilinxISE template
 # intermediate build files
 *.bgn
