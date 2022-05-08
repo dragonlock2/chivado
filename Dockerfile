@@ -4,6 +4,7 @@ ARG INSTALLER="Xilinx_Unified_2022.1_0420_0327.tar.gz"
 
 RUN apt update && apt upgrade -y
 RUN apt install locales libtinfo5 libx11-dev -y
+RUN apt install libxext6 libxrender1 libxtst6 libxi6 libfreetype6 xorg -y
 RUN locale-gen en_US.UTF-8
 
 WORKDIR /root/

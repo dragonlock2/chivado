@@ -37,3 +37,5 @@ For SRAM flashing, run `make flash`. For QSPI flash programming, run `make flash
 ## Extra
 
 ### Adding IP (WIP)
+
+Highly recommend generating the verilog in Vivado with GUI (or Tcl?)
