@@ -3,7 +3,7 @@ package test
 import chisel3._
 import chisel3.util._
 
-class test extends Module {
+class Test extends Module {
   val io = IO(new Bundle {
     val led = Output(UInt(8.W))
     val btn = Input(UInt(8.W))
