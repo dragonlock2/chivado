@@ -10,7 +10,9 @@ set_property -dict [list CONFIG.Component_Name {clk_wiz_0} \
                          CONFIG.MMCM_CLKIN2_PERIOD {10.0} \
                          CONFIG.MMCM_CLKOUT0_DIVIDE_F {9.750} \
                          CONFIG.CLKOUT1_JITTER {235.888} \
-                         CONFIG.CLKOUT1_PHASE_ERROR {245.431}] \
+                         CONFIG.CLKOUT1_PHASE_ERROR {245.431} \
+                         CONFIG.USE_LOCKED {false} \
+                         CONFIG.USE_RESET {false}] \
                          [get_ips clk_wiz_0]
 
 generate_target all [get_ips]
