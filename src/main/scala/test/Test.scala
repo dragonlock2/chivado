@@ -19,12 +19,14 @@ class Test extends Module {
     val uart0 = Module(new UART(UARTConfig(clock_freq = FREQ)))
     uart0.io.rx := io.rx(0)
     uart0.io.tx_data <> uart0.io.rx_data
+    val c = uart0.io.rx_data.bits
+    uart0.io.tx_data.bits := Mux((c >= 65.U && c <= 90.U) || (c >= 97.U && c <= 122.U), c ^ 0x20.U, c)
 
-    val uart1 = Module(new UART(UARTConfig(clock_freq = FREQ)))
+    val uart1 = Module(new UART(UARTConfig(clock_freq = FREQ, parity = "odd")))
     uart1.io.rx := io.rx(1)
     uart1.io.tx_data <> uart1.io.rx_data
 
-    val uart2 = Module(new UART(UARTConfig(clock_freq = FREQ)))
+    val uart2 = Module(new UART(UARTConfig(clock_freq = FREQ, parity = "even")))
     uart2.io.rx := io.rx(2)
     uart2.io.tx_data <> uart2.io.rx_data
 
