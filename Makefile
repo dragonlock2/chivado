@@ -1,6 +1,6 @@
 PART_NUM := xc7s15csga225-1
 NUM_CPU := 6
-TOP_MODULE := test
+TOP_MODULE := Test
 
 CABLE := ft4232
 LOADER_FOLDER := /usr/local/Cellar/openfpgaloader/0.8.0/share/openFPGALoader
@@ -28,7 +28,7 @@ synth: build
 	docker cp $(SCRIPTS)/build-project.tcl $(CONTAINER_ROOT)
 	docker cp $(SCRIPTS)/ip.tcl $(CONTAINER_ROOT)
 	$(RUN_CMD) 'vivado -mode batch -source build-project.tcl -tclargs $(PART_NUM) $(PROJ_NAME) $(TOP_MODULE) $(TOP_FILE) $(XDC_FILE) $(NUM_CPU)'
-	docker cp $(CONTAINER_ROOT)/$(PROJ_NAME) $(BUILD_DIR)/$(PROJ_NAME)
+	docker cp $(CONTAINER_ROOT)/$(PROJ_NAME) $(BUILD_DIR)
 	docker container kill $(CONTAINER_NAME)
 
 synth_qspi:
@@ -40,7 +40,7 @@ synth_qspi:
 	docker cp $(SCRIPTS)/build-project.tcl $(CONTAINER_ROOT)
 	$(RUN_CMD) 'touch ip.tcl'
 	$(RUN_CMD) 'vivado -mode batch -source build-project.tcl -tclargs $(PART_NUM) qspi qspi qspi.v qspi.xdc $(NUM_CPU)'
-	docker cp $(CONTAINER_ROOT)/qspi $(BUILD_DIR)/qspi
+	docker cp $(CONTAINER_ROOT)/qspi $(BUILD_DIR)
 	cp $(BUILD_DIR)/qspi/qspi.runs/impl_1/qspi.bit $(LOADER_FOLDER)/spiOverJtag_$(PART_NUM).bit
 	docker container kill $(CONTAINER_NAME)
 

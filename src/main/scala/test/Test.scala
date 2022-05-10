@@ -15,7 +15,7 @@ class Test extends Module {
   val pll = Module(new PLL)
   pll.io.in := clock.asBool
 
-  withClock(pll.io.out.asClock) {
+  withClockAndReset(pll.io.out.asClock, io.btn(0)) {
     val uart0 = Module(new UART(UARTConfig(clock_freq = FREQ)))
     uart0.io.rx := io.rx(0)
     uart0.io.tx_data <> uart0.io.rx_data
@@ -32,7 +32,9 @@ class Test extends Module {
 
     io.tx := Cat(uart2.io.tx, uart1.io.tx, uart0.io.tx)
 
-    io.led := uart0.io.rx_data.bits ^ io.btn
+    val r = RegInit(0.U(8.W))
+    when(uart0.io.rx_data.fire) { r := uart0.io.rx_data.bits }
+    io.led := r ^ io.btn
   }
 }
 
