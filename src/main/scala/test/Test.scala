@@ -11,19 +11,26 @@ class Test extends Module {
     val rx  = Input(UInt(3.W))
   })
 
-  private val FREQ = 100e6
+  val FREQ = 100000000 // 100MHz
   val pll = Module(new PLL)
   pll.io.in := clock.asBool
 
   withClock(pll.io.out.asClock) {
-    io.tx := Reverse(io.rx)
+    val uart0 = Module(new UART(UARTConfig(clock_freq = FREQ)))
+    uart0.io.rx := io.rx(0)
+    uart0.io.tx_data <> uart0.io.rx_data
 
-    val (ctrVal, ctrWrap) = Counter(true.B, (0.1 * FREQ).toInt)
-    val shift = RegInit(1.U(8.W))
-    when (ctrWrap) {
-      shift := Cat(shift(0), shift(7,1))
-    }
-    io.led := shift | io.btn
+    val uart1 = Module(new UART(UARTConfig(clock_freq = FREQ)))
+    uart1.io.rx := io.rx(1)
+    uart1.io.tx_data <> uart1.io.rx_data
+
+    val uart2 = Module(new UART(UARTConfig(clock_freq = FREQ)))
+    uart2.io.rx := io.rx(2)
+    uart2.io.tx_data <> uart2.io.rx_data
+
+    io.tx := Cat(uart2.io.tx, uart1.io.tx, uart0.io.tx)
+
+    io.led := uart0.io.rx_data.bits ^ io.btn
   }
 }
 
