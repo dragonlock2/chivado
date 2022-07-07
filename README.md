@@ -46,4 +46,4 @@ Based on [Creating Vivado IP the Smart Tcl Way](https://grittyengineer.com/creat
 1. Generate and configure your IP (scripts is enough).
 1. Open `File > Project > Open Journal File` and copy the `create_ip` and`set_ip` lines for the IP into [ip.tcl](src/main/script/ip.tcl).
 1. Run `File > Exit` to close Vivado gracefully. The updated Vivado project is copied back locally.
-1. Add the appropriate [BlackBoxes](https://www.chisel-lang.org/chisel3/docs/explanations/blackboxes.html) in Chisel. The IP Verilog templates should be in the Vivado project. See [test.scala](src/main/scala/test/test.scala) for an example.
+1. Add the appropriate [BlackBoxes](https://www.chisel-lang.org/chisel3/docs/explanations/blackboxes.html) in Chisel. The IP Verilog templates should be in the Vivado project. See [test.scala](src/main/scala/test/Test.scala) for an example.
